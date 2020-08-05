@@ -1,0 +1,45 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hulin.dao.IUserDao">
+    <!--配置查询所有-->
+    <select id="findAll" resultMap="com.hulin.pojo.User">
+        select * from user
+    </select>
+    <!--保存用户
+        通过parameterType告知insert语句中插入数据的类型
+        #{} 占位符形式将参数类型中属性值进行回填
+    -->
+    <insert id="saveUser" parameterType="com.hulin.pojo.User">
+        insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday});
+    </insert>
+    <!--保存用户并返回主键-->
+    <insert id="saveUser" parameterType="com.hulin.pojo.User">
+        <!--配置插入操作后，获取插入数据的id
+             keyProperty:实体类id的属性名
+              keyColumn：id的字段名
+                order:保存前返回id还是保存后返回id-->
+        <selectKey keyProperty="id" keyColumn="id" resultType="int" order="AFTER">
+          select last_insert_id();
+        </selectKey>
+    </insert>
+    <update id="updateUser" parameterType="com.hulin.pojo.User">
+        update user set username=#{username},address=#{address},sex=#{sex},birthday=#{birthday} where id=#{id}
+    </update>
+
+    <delete id="deleteUser" parameterType="Integer">
+        delete  from user where id=#{id}
+    </delete>
+
+    <select id="findById" resultType="com.hulin.pojo.User" parameterType="Integer">
+        select * from user where id=#{id}
+    </select>
+
+    <select id="findByusername" parameterType="String" resultType="com.hulin.pojo.User">
+        select * from user where username like #{username}
+    </select>
+
+    <select id="findTotal" resultType="int">
+        select count(id) from user
+    </select>
+</mapper>
