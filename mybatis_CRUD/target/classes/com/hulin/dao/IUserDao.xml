@@ -11,9 +11,9 @@
     </resultMap>
     <!--当指定了resultMap时，则下面的操作数据库的标签中的resultType就无效了，需要换成resultMap
         例如-->
-    <select id="findAll" resultMap="userMap">
-        select * from user
-    </select>
+    <!--<select id="findAll" resultMap="userMap">-->
+        <!--select * from user-->
+    <!--</select>-->
 
     <!--配置查询所有-->
     <select id="findAll" resultType="com.hulin.pojo.User">
@@ -23,9 +23,9 @@
         通过parameterType告知insert语句中插入数据的类型
         #{} 占位符形式将参数类型中属性值进行回填
     -->
-    <insert id="saveUser" parameterType="com.hulin.pojo.User">
-        insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday});
-    </insert>
+    <!--<insert id="saveUser" parameterType="com.hulin.pojo.User">-->
+        <!--insert into user(username,address,sex,birthday)values(#{username},#{address},#{sex},#{birthday});-->
+    <!--</insert>-->
     <!--保存用户并返回主键-->
     <insert id="saveUser" parameterType="com.hulin.pojo.User">
         <!--配置插入操作后，获取插入数据的id

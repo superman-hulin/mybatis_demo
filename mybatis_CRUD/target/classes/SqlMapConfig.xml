@@ -4,15 +4,6 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <!--mybatis的主配置文件-->
 <configuration>
-    <!--下面数据库连接信息也可以通过加载外部properties文件-->
-    <properties resource="jdbcConfig.properties"></properties>
-    <!--用于给实体类的全限定类名起别名-->
-    <typeAliases>
-        <typeAlias type="com.hulin.pojo.User" alias="user"></typeAlias>
-        <!--上面别名配置方式过于麻烦，由于需要给每个实体类都这样配置-->
-        <!--用于指定要配置别名的包，该包下所有类的别名就是该类名，不区分大小写-->
-        <package name="com.hulin.pojo"></package>
-    </typeAliases>
     <!--配置环境-->
     <environments default="mysql">
         <environment id="mysql">
@@ -24,17 +15,11 @@
                 <property name="url" value="jdbc:mysql://localhost:3306/"/>
                 <property name="username" value="root"/>
                 <property name="password" value="root"/>
-                <!--当采用加载外部连接信息时-->
-                <property name="driver" value="${jdbc.driver}"/>
             </dataSource>
         </environment>
     </environments>
     <!--指定映射配置文件的位置，映射配置文件指的是每个dao独立的配置文件-->
     <mappers>
         <mapper resource="com/hulin/dao/IUserDao.xml"></mapper>
-        <!--当有多个dao.xml文件时，该写法过于麻烦-->
-        <!--用于指定dao接口所在的包，当指定了后就不需要在写mapper以及resource或class了
-        要求dao接口和对应的xml要在相同目录下，且文件名一样-->
-        <package name="com.hulin.dao"></package>
     </mappers>
 </configuration>
