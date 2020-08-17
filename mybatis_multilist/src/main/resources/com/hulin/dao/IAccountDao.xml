@@ -1,0 +1,35 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hulin.dao.IAccountDao">
+    <!--定义封装account和user的resultMap-->
+    <resultMap id="accountUserMap" type="account">
+        <!--列名为aid是因为为account表的id取了别名aid-->
+        <id property="id" column="aid"></id>
+        <result property="uid" column="uid"></result>
+        <result property="money" column="money"></result>
+        <!--一对一的关系映射，配置封装user的内容-->
+        <!--javaType代表数据封装到哪个类中-->
+        <association property="user" column="uid" javaType="com.hulin.pojo.User">
+            <result property="id" column="id"></result>
+            <result property="username" column="username"></result>
+            <result property="address" column="address"></result>
+            <result property="sex" column="sex"></result>
+            <result property="birthday" column="birthday"></result>
+        </association>
+    </resultMap>
+
+    <select id="findAll" resultMap="accountUserMap">
+       select u.*,a.id as aid,a.uid,a.money from account a,user u where u.id=a.uid
+    </select>
+
+    <!--查询所有账户信息的同时，也查出对应的用户部分信息-->
+    <select id="findAllAccount" resultType="AccountUser">
+        select a.*,u.username,u.address from account a,user u where u.id=a.uid
+    </select>
+
+    <select id="findById" resultMap="account" parameterType="Integer">
+        select * from account where id=#{id}
+    </select>
+
+</mapper>

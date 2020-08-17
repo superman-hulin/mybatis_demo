@@ -1,0 +1,28 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hulin.dao.IUserDao">
+
+    <!--如果实体类的属性名和字段名不匹配时，配置 查询结果的列名和实体类的属性名的对应关系-->
+    <resultMap id="userAccountMap" type="com.hulin.pojo.User">
+        <id property="id" column="id"></id>
+        <result property="username" column="username"></result>
+        <result property="address" column="address"></result>
+        <result property="sex" column="sex"></result>
+        <result property="birthday" column="birthday"></result>
+      <!--通过select属性配置一对多的延迟加载
+         column属性的值是用户表中的用户id字段-->
+        <collection property="accounts" ofType="com.hulin.pojo.Account" column="id"
+        select="com.hulin.dao.IAccountDao.findAccountByUid">
+        </collection>
+    </resultMap>
+
+    <select id="findAll" resultMap="userAccountMap">
+        select * from user
+    </select>
+
+    <select id="findById" resultType="user" parameterType="Integer">
+        select * from user where id=#{id}
+    </select>
+
+</mapper>
